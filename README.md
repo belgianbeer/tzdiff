@@ -24,6 +24,6 @@ All above statement works fine.
 
 Timediff works with the following operating system.
 
-* OS X / FreeBSD / NetBSD / OpenBSD (It may works on DragonflyBSD.)
+* OS X / FreeBSD / NetBSD / OpenBSD (It may works on DragonFly BSD.)
 * Debian / Ubuntu / CentOS (and many Linux Box)
 * Bash on Windows
