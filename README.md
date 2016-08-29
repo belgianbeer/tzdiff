@@ -13,11 +13,14 @@ If the COUNT is given, timediff displays COUNT times.
 
 Timediff supports complition of TIMEZONE. For example,
 
+    timediff Tokyo 24
+    timediff Asia/Tokyo
+    timediff Lon
+    timediff Lond
     timediff Asia
-    timediff New_
     timediff Ame
 
-All above statemet works fine.
+All above statement works fine.
 
 Timediff works with the following operating system.
 
