@@ -22,7 +22,7 @@ Timediff supports complition of TIMEZONE. For example,
 
 All above statement works fine.
 
-Timediff works with the following operating system.
+Timediff works with the following operating systems.
 
 * OS X / FreeBSD / NetBSD / OpenBSD (It may works on DragonFly BSD.)
 * Debian / Ubuntu / CentOS (and many Linux Box)
