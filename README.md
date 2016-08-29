@@ -2,6 +2,7 @@
 Show Time difference with local time in CLI (shell script)
 
 *Usage*
+
     timediff
     timediff TIMEZONE
     timediff TIMEZONE COUNT
@@ -11,9 +12,11 @@ Timediff with TIMEZONE will display the time differnces of remote time with loca
 If the COUNT is given, timediff displays COUNT times.
 
 Timediff supports complition of TIMEZONE. For example,
+
     timediff Asia
     timediff New_
     timediff Ame
+
 All above statemet works fine.
 
 Timediff works with the following operating system.
