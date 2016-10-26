@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: timediff,v 1.20 2016/08/25 22:57:59 minmin Exp $
+#  $Id: timediff,v 1.21 2016/10/26 14:14:20 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -100,6 +100,10 @@ elif [ $# -ge 3 ]; then
 	__usage
 elif [ $# -ne  1 ]; then
 	max=${2}
+	if [ ${max} -eq 0 ]; then
+		max=10
+        	ZERO_flag=YES
+	fi
 fi
 
 __set_zoneinfo "${1}"
