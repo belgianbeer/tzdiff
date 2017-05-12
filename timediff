@@ -26,14 +26,13 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: timediff,v 1.24 2017/05/11 15:39:26 minmin Exp $
+#  $Id: timediff,v 1.30 2017/05/12 13:23:56 minmin Exp $
 
 format='%F %R %Z'
 max=10
 
 __check_match () {
-	if [ `echo ${1} | wc -w` -eq 1 ]
-	then
+	if [ `echo ${1} | wc -w` -eq 1 ]; then
 		return 0
 	fi
 	ls -dF ${1}
@@ -77,16 +76,52 @@ __set_zoneinfo () {
 }
 
 __usage () {
-	echo "Usage: ${0##*/} zoneinfo [zoneinfo... ] [count] [0]" 1>&2
+	echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...]" 1>&2
+	echo '	more info: <https://github.com/belgianbeer/timediff>' 1>&2
 	exit 2
 }
 
+if date --version >/dev/null 2>&1; then
+	# for GNU date
+	__date_with_format () {
+		if [ $# -eq 2 ]; then
+			TZ=${2} date --date=@${1} +"${format}"
+		else
+			date --date=@${1} +"${format}"
+		fi
+	}
+	__date_parse1 () { date --date="${1}" +%s ; }
+	__date_parse2 () { date --date="${1}" +%s ; }
+else
+	# for BSD date
+	__date_with_format () {
+		if [ $# -eq 2 ]; then
+			TZ=${2} date -j -r ${1} +"${format}"
+		else
+			date -j -r ${1} +"${format}"
+		fi
+	}
+	case `uname -s` in
+	    FreeBSD|Darwin)
+		__date_parse1 () { date -j -f %FT%R ${1} +%s ; }
+		__date_parse2 () { date -j -f %Y%m%dT%H%M ${1} +%s ; }
+		;;
+	    *)
+		__date_parse1 () { date +%s ; }
+		__date_parse2 () { date +%s ; }
+		;;
+	esac
+fi
+
 cd /usr/share/zoneinfo || exit
 
-while getopts '0h' cmd_arg
+while getopts '0hn:f:t:' cmd_arg
 do
         case "${cmd_arg}" in
         0)      zero_flag=YES ;;
+	n)	max=${OPTARG} ;;
+	f)	format="${OPTARG}" ;;
+	t)	nt=${OPTARG} ;;
         h|*)    __usage ;;
         esac
 done >&2
@@ -120,15 +155,24 @@ do
 	shift
 done
 
-if [ ${id} -eq 0 ]
-then
+if [ ${id} -eq 0 ]; then
 	__usage
 fi
 
+case "x${nt}" in
+	
+x[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9])
+	ut=`__date_parse1 "${nt}"` ;;
+x[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9])
+	ut=`__date_parse2 "${nt}"` ;;
+x)
+	ut=`date +%s`;;
+*)
+	__usage;;
+esac
+
 if [ x${zero_flag} = x"YES" ]; then
-	ut=$(( (`date +%s`/3600)*3600 ))
-else
-	ut=`date +%s`
+	ut=$(( ($ut/3600)*3600 ))
 fi
 
 i=0
@@ -140,35 +184,19 @@ do
 done
 echo ''
 
-if type jot >/dev/null 2>&1
-then
-	# this system has 'jot', it may be *BSD or macOS
-	for i in `jot ${max} 0`
+[ ${max} -le 0 ] && max=10	# fail safe
+
+j=0
+while [ ${j} -lt ${max} ]
+do
+	i=0
+	while [ ${i} -lt ${id} ]
 	do
-		i=0
-		while [ ${i} -lt ${id} ]
-		do
-			eval tz=\$tz${i}
-			remote=`TZ=${tz} date -r ${ut} +"${format}"`
-			printf "${remote}\t"
-			i=$((i + 1))
-		done
-		date -r ${ut} +"${format}"
-		ut=$((ut + 3600))
+		eval tz=\$tz${i}
+		printf "`__date_with_format ${ut} ${tz}`\t"
+		i=$((i + 1))
 	done
-else
-	# this system does not have 'jot', it may be Linux box.
-	for i in `seq 1 ${max}`
-	do
-		i=0
-		while [ ${i} -lt ${id} ]
-		do
-			eval tz=\$tz${i}
-			remote=`TZ=${tz} date --date=@${ut} +"${format}"`
-			printf "${remote}\t"
-			i=$((i + 1))
-		done
-		date --date=@${ut} +"${format}"
-		ut=$((ut + 3600))
-	done
-fi
+	__date_with_format ${ut}
+	ut=$((ut + 3600))
+	j=$((j + 1))
+done
