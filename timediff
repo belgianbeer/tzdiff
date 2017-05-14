@@ -1,5 +1,5 @@
 #!/bin/sh
-# 
+#
 #  timediff - show time differences at the place
 #
 #  Copyright (c) 2016 Masato Minda
@@ -77,6 +77,10 @@ __set_zoneinfo () {
 
 __usage () {
 	echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...]" 1>&2
+	echo '  -0 : round down minutes' 1>&2
+	echo '  -n : max lines (default: 10)' 1>&2
+	echo '  -f : time format (c.f. man date)' 1>&2
+	echo '  -t : start time (%Y-%m-%dT%H:%M)' 1>&2
 	echo '	more info: <https://github.com/belgianbeer/timediff>' 1>&2
 	exit 2
 }
@@ -160,7 +164,7 @@ if [ ${id} -eq 0 ]; then
 fi
 
 case "x${nt}" in
-	
+
 x[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9])
 	ut=`__date_parse1 "${nt}"` || exit ;;
 x[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9])
