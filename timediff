@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: timediff,v 1.31 2017/05/13 00:05:35 minmin Exp $
+#  $Id: timediff,v 1.32 2017/05/14 10:17:04 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -76,12 +76,14 @@ __set_zoneinfo () {
 }
 
 __usage () {
-	echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...]" 1>&2
-	echo '  -0 : round down minutes' 1>&2
-	echo '  -n : max lines (default: 10)' 1>&2
-	echo '  -f : time format (c.f. man date)' 1>&2
-	echo '  -t : start time (%Y-%m-%dT%H:%M)' 1>&2
-	echo '	more info: <https://github.com/belgianbeer/timediff>' 1>&2
+	cat <<- EOT >&2
+	Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...]
+	    -0 : round down minutes
+	    -n : max hours (default: 10)
+	    -f : time format (c.f. man date)
+	    -t : start time (%Y-%m-%dT%H:%M)
+	    more info: <https://github.com/belgianbeer/timediff>
+	EOT
 	exit 2
 }
 
@@ -187,8 +189,6 @@ do
 	i=$((i + 1))
 done
 echo ''
-
-[ ${max} -le 0 ] && max=10	# fail safe
 
 j=0
 while [ ${j} -lt ${max} ]
