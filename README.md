@@ -20,12 +20,12 @@ Timediff with timezone will display the time differnces of remote time with loca
 
 Timediff supports TIMEZONE's complition. For example,
 
-    timediff Lon	(enter RETURN insted of TAB)
+    timediff Lon             # enter RETURN insted of TAB
     timediff Lond
-    timediff Asia
+    timediff Eur
     timediff Ame
 
-Example
+*Example* (Author's local time is JST)
 
     $ timediff America/Los_Angeles
     America/Los_Angeles
@@ -50,18 +50,18 @@ Example
 
 It is easy to check changes from daylight saving time to winter time.
 
-    $ timediff -t 2017-11-05T11:00 Los New_ Lond Berl
-    America/Los_Angeles     America/New_York        Europe/London   Europe/Berlin
-    2017-11-04 19:00 PDT    2017-11-04 22:00 EDT    2017-11-05 02:00 GMT    2017-11-05 03:00 CET    2017-11-05 11:00 JST
-    2017-11-04 20:00 PDT    2017-11-04 23:00 EDT    2017-11-05 03:00 GMT    2017-11-05 04:00 CET    2017-11-05 12:00 JST
-    2017-11-04 21:00 PDT    2017-11-05 00:00 EDT    2017-11-05 04:00 GMT    2017-11-05 05:00 CET    2017-11-05 13:00 JST
-    2017-11-04 22:00 PDT    2017-11-05 01:00 EDT    2017-11-05 05:00 GMT    2017-11-05 06:00 CET    2017-11-05 14:00 JST
-    2017-11-04 23:00 PDT    2017-11-05 01:00 EST    2017-11-05 06:00 GMT    2017-11-05 07:00 CET    2017-11-05 15:00 JST
-    2017-11-05 00:00 PDT    2017-11-05 02:00 EST    2017-11-05 07:00 GMT    2017-11-05 08:00 CET    2017-11-05 16:00 JST
-    2017-11-05 01:00 PDT    2017-11-05 03:00 EST    2017-11-05 08:00 GMT    2017-11-05 09:00 CET    2017-11-05 17:00 JST
-    2017-11-05 01:00 PST    2017-11-05 04:00 EST    2017-11-05 09:00 GMT    2017-11-05 10:00 CET    2017-11-05 18:00 JST
-    2017-11-05 02:00 PST    2017-11-05 05:00 EST    2017-11-05 10:00 GMT    2017-11-05 11:00 CET    2017-11-05 19:00 JST
-    2017-11-05 03:00 PST    2017-11-05 06:00 EST    2017-11-05 11:00 GMT    2017-11-05 12:00 CET    2017-11-05 20:00 JST
+    $ timediff  -t 2017-11-05T11:00 Los New_ Brus
+    America/Los_Angeles     America/New_York        Europe/Brussels
+    2017-11-04 19:00 PDT    2017-11-04 22:00 EDT    2017-11-05 03:00 CET    2017-11-05 11:00 JST
+    2017-11-04 20:00 PDT    2017-11-04 23:00 EDT    2017-11-05 04:00 CET    2017-11-05 12:00 JST
+    2017-11-04 21:00 PDT    2017-11-05 00:00 EDT    2017-11-05 05:00 CET    2017-11-05 13:00 JST
+    2017-11-04 22:00 PDT    2017-11-05 01:00 EDT    2017-11-05 06:00 CET    2017-11-05 14:00 JST
+    2017-11-04 23:00 PDT    2017-11-05 01:00 EST    2017-11-05 07:00 CET    2017-11-05 15:00 JST
+    2017-11-05 00:00 PDT    2017-11-05 02:00 EST    2017-11-05 08:00 CET    2017-11-05 16:00 JST
+    2017-11-05 01:00 PDT    2017-11-05 03:00 EST    2017-11-05 09:00 CET    2017-11-05 17:00 JST
+    2017-11-05 01:00 PST    2017-11-05 04:00 EST    2017-11-05 10:00 CET    2017-11-05 18:00 JST
+    2017-11-05 02:00 PST    2017-11-05 05:00 EST    2017-11-05 11:00 CET    2017-11-05 19:00 JST
+    2017-11-05 03:00 PST    2017-11-05 06:00 EST    2017-11-05 12:00 CET    2017-11-05 20:00 JST
 
 Timediff works with the following operating systems.
 
