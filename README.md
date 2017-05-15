@@ -16,7 +16,6 @@ Timediff with timezone will display the time differnces of remote time with loca
 * -f format: set the output format. default is '%F %R %Z'.
 * -t time: set the specific time instead of current time.
  'YYYY-mm-ddTHH:MM' or 'YYYYmmddTHHMM' is ok.
- (NetBSD and OpenBSD do not work).
 
 Timediff supports TIMEZONE's complition. For example,
 
