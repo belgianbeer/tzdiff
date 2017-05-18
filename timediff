@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: timediff,v 1.38 2017/05/16 15:03:17 minmin Exp $
+#  $Id: timediff,v 1.39 2017/05/18 02:42:46 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -120,7 +120,7 @@ else
 			_tmp=`mktemp /tmp/.timediffXXXXXXXXXX`
 			trap "rm -f ${_tmp}" 0 1 2 3 5 15
 			touch -t `echo ${1} | tr -d 'T:-'` ${_tmp} || exit
-			_ret=`stat -f %Sm -t %s ${_tmp}` 
+			_ret=`stat -f %Sm -t %s ${_tmp}`
 			rm -f ${_tmp}
 			echo ${_ret}
 		}
@@ -132,13 +132,13 @@ cd /usr/share/zoneinfo || exit
 
 while getopts '0hn:f:t:' cmd_arg
 do
-        case "${cmd_arg}" in
-        0)      zero_flag=YES ;;
+	case "${cmd_arg}" in
+	0)	zero_flag=YES ;;
 	n)	max=${OPTARG} ;;
 	f)	format="${OPTARG}" ;;
 	t)	nt=${OPTARG} ;;
-        h|*)    __usage ;;
-        esac
+	h|*)	__usage ;;
+	esac
 done >&2
 
 shift $((OPTIND - 1))
