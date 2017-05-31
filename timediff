@@ -76,7 +76,7 @@ __set_zoneinfo () {
 }
 
 __usage () {
-echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...]
+echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
 	-0 : round down minutes
 	-n : max hours (default: 10)
 	-f : time format (cf. man date)
