@@ -11,10 +11,10 @@ Timediff with timezone will display the time differnces of remote time with loca
 *Options*
 
 * -h: show usage
-* -0: adjust to just o'clock.
-* -n count: repeat count hours.
-* -f format: set the output format. default is '%F %R %Z'.
-* -t time: set the specific time instead of current time.
+* -0: round down to hour
+* -n count: max hours (default: 10)
+* -f format: output format (using '+output_fmt' of date(1))
+* -t time: set the start time instead of current time.
  'YYYY-mm-ddTHH:MM' or 'YYYYmmddTHHMM' is ok.
 
 *Example* (Author's time is JST)
