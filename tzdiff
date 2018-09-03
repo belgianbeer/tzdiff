@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#  timediff - show time differences at the place
+#  tzdiff - show timezone differences at the place
 #
 #  Copyright (c) 2016-2017 Masato Minda
 #  All rights reserved.
@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: timediff,v 1.42 2018/08/17 02:22:21 minmin Exp $
+#  $Id: tzdiff,v 1.43 2018/09/03 13:10:11 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -81,7 +81,7 @@ echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone .
 	-n : max hours (default: 10)
 	-f : output format (using '+output_fmt' of 'date' command)
 	-t : start time (YYYY-mm-ddThh:mm or YYYYmmddThhmm)
-	more info: <https://github.com/belgianbeer/timediff>" >&2
+	more info: <https://github.com/belgianbeer/tzdiff>" >&2
 
 	exit 2
 }
@@ -117,7 +117,7 @@ else
 	*)
 		__date_parse () {		# NetBSD / OpenBSD
 			local _tmp _ret
-			_tmp=`mktemp /tmp/.timediffXXXXXXXXXX`
+			_tmp=`mktemp /tmp/.tzdiffXXXXXXXXXX`
 			trap "rm -f ${_tmp}" 0 1 2 3 5 15
 			touch -t `echo ${1} | tr -d 'T:-'` ${_tmp} || exit
 			_ret=`stat -f %Sm -t %s ${_tmp}`
