@@ -2,7 +2,7 @@
 #
 #  tzdiff - show timezone differences at the place
 #
-#  Copyright (c) 2016-2017 Masato Minda
+#  Copyright (c) 2016 - 2018 Masato Minda
 #  All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.43 2018/09/03 13:10:11 minmin Exp $
+#  $Id: tzdiff,v 1.44 2018/09/04 00:21:53 minmin Exp $
 
 format='%F %R %Z'
 max=10
