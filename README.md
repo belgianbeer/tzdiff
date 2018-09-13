@@ -11,7 +11,7 @@ This command was originally "timediff". Now, it's "tzdiff" because of naming con
     tzdiff [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
 
 Tzdiff with no arguments will display list of timezones.
-Tzdiff with timezone will display the time differnces of remote time with local time.
+Tzdiff with timezone will display the time differences of remote time with local time.
 
 *Options*
 
@@ -45,9 +45,9 @@ Tzdiff with timezone will display the time differnces of remote time with local 
     2017-05-12 13:55 PDT    2017-05-13 05:55 JST
     2017-05-12 14:55 PDT    2017-05-13 06:55 JST
 
-Tzdiff supports TIMEZONE's complition. For example,
+Tzdiff supports TIMEZONE's completion. For example,
 
-    $ tzdiff Lon             # enter RETURN insted of TAB
+    $ tzdiff Lon             # enter RETURN instead of TAB
     Arctic/Longyearbyen     Europe/London
 
     $ tzdiff Lond
@@ -89,5 +89,5 @@ It is easy to check changes from daylight saving time to standard time
 Tzdiff works with the following operating systems.
 
 * OS X / FreeBSD / NetBSD / OpenBSD (It may work on DragonFly BSD.)
-* Debian / Ubuntu / CentOS and many Linux Box
+* Debian / Ubuntu / CentOS and many Linux distros
 * Windows subsystem for Linux
