@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.44 2018/09/04 00:21:53 minmin Exp $
+#  $Id: tzdiff,v 1.45 2018/10/15 03:47:50 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -75,12 +75,29 @@ __set_zoneinfo () {
 	done
 }
 
+__make_column () {
+	if [ ! -z "${H_flag}" ]; then
+		echo "%s"
+		return
+	fi
+
+	local _ltz="${1}"
+	local _ltd="$(__date_with_format ${ut} ${_ltz})"
+
+	if [ ${#_ltz} -gt ${#_ltd} ]; then
+		echo "%-${#_ltz}s"
+	else
+		echo "%-${#_ltd}s"
+	fi
+}
+
 __usage () {
 echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
 	-0 : round down to hour
 	-n : max hours (default: 10)
 	-f : output format (using '+output_fmt' of 'date' command)
 	-t : start time (YYYY-mm-ddThh:mm or YYYYmmddThhmm)
+	-H : scripting mode.
 	more info: <https://github.com/belgianbeer/tzdiff>" >&2
 
 	exit 2
@@ -130,13 +147,14 @@ fi
 
 cd /usr/share/zoneinfo || exit
 
-while getopts '0hn:f:t:' cmd_arg
+while getopts '0hHn:f:t:' cmd_arg
 do
 	case "${cmd_arg}" in
 	0)	zero_flag=YES ;;
 	n)	max=${OPTARG} ;;
 	f)	format="${OPTARG}" ;;
 	t)	nt=${OPTARG} ;;
+	H)	H_flag=YES ;;
 	h|*)	__usage ;;
 	esac
 done >&2
@@ -192,10 +210,12 @@ i=0
 while [ ${i} -lt ${id} ]
 do
 	eval tz=\$tz${i}
-	printf "$tz\t"
+	eval fmt${i}=$(__make_column ${tz})
+	eval fmt=\$fmt${i}
+	[ -z "${H_flag}" ] && printf "${fmt}\t" "${tz}"
 	i=$((i + 1))
 done
-echo ''
+[ -z "${H_flag}" ] && echo ''
 
 j=0
 while [ ${j} -lt ${max} ]
@@ -204,7 +224,8 @@ do
 	while [ ${i} -lt ${id} ]
 	do
 		eval tz=\$tz${i}
-		printf "`__date_with_format ${ut} ${tz}`\t"
+		eval fmt=\$fmt${i}
+		printf "${fmt}\t" "$(__date_with_format ${ut} ${tz})"
 		i=$((i + 1))
 	done
 	__date_with_format ${ut}

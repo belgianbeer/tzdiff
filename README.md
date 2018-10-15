@@ -21,6 +21,7 @@ Tzdiff with timezone will display the time differences of remote time with local
 * -f format: output format (using '+output_fmt' of date(1))
 * -t time: set the start time instead of current time.
  'YYYY-mm-ddTHH:MM' or 'YYYYmmddTHHMM' is ok.
+* -H: beccom the scripting mode. Fields are explicitly separated by single tab instead of an arbitrary space.
 
 *Example* (Author's timezone is JST)
 
