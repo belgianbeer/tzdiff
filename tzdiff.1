@@ -1,0 +1,136 @@
+.\"
+.\"  Copyright (c) 2016 - 2018 Masato Minda
+.\"  All rights reserved.
+.\"
+.\"  Redistribution and use in source and binary forms, with or without
+.\"  modification, are permitted provided that the following conditions
+.\"  are met:
+.\"  1. Redistributions of source code must retain the above copyright
+.\"     notice, this list of conditions and the following disclaimer.
+.\"  2. Redistributions in binary form must reproduce the above copyright
+.\"     notice, this list of conditions and the following disclaimer in the
+.\"     documentation and/or other materials provided with the distribution.
+.\"
+.\"  THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+.\"  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\"  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\"  ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+.\"  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\"  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\"  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\"  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\"  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\"  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\"  SUCH DAMAGE.
+.\"
+.Dd Dec 20, 2018
+.Dt TZDIFF 1
+.OS
+.Sh NAME
+.Nm tzdiff
+.Nd timezone differences in multiple timzones.
+.Sh SYNOPSIS
+.Nm
+.Op Fl 0
+.Op Fl n Ar count
+.Op Fl f Ar format
+.Op Fl t Ar time
+timzone
+.Op timezone ...
+.Op count
+.Op 0
+.Sh DESCRIPTION
+The
+.Nm
+utility displays the localtime of the designated city and your current city.
+.Pp
+The
+.Nm
+utility needs at least one of timezone name, such as 'Asia/Tokyo'.
+If the argument is 'Asia' then 
+.Nm
+displays the cities of Asia. You can easy to choose it from the result.
+.Pp
+The
+.Nm
+supports the complition with name of city for useful.
+For example, 'Tok' means 'Asia/Tokyo'.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl 0
+round down to hour. 0(zero) may be specified as the last argument.
+.It Fl n
+Number of hours. Default is 10. It may be specified as the last argument.
+.It Fl h
+Show usage.
+.It Fl f Ar count
+Output format of time. It uses output format of date(1).
+.It Fl t Ar arg
+Specify the start time.
+It supports one of 'YYYY-mm-ddThh:mm' or 'YYYYmmddThhmm'.
+.Sh EXAMPLES
+The command:
+.Pp
+.Dl "tzdiff"
+.Pp
+will display same result of 'ls -F /usr/share/zoneinfo' :
+.Bd -literal -offset indent
+Africa/       Australia/    Etc/          MST           WET
+America/      CET           Europe/       MST7MDT       posixrules
+--- snip --- snip --- snip ---
+Asia/         EST           Indian/       SystemV/
+Atlantic/     EST5EDT       MET           UTC
+.Ed
+.Pp
+The command:
+.Pp
+.Dl "tzdiff Europe"
+.Pp
+will display:
+.Bd -literal -offset indent
+Europe/Amsterdam        Europe/Kiev             Europe/Sarajevo
+Europe/Andorra          Europe/Kirov            Europe/Saratov
+--- snip --- snip --- snip ---
+Europe/Jersey           Europe/Samara
+Europe/Kaliningrad      Europe/San_Marino
+.Ed
+.Pp
+The command:
+.Pp
+.Dl "tzdiff Europe/Amsterdam"
+.Pp
+will display:
+.Pp
+.Bd -literal -offset indent
+Europe/Amsterdam
+2018-12-19 14:52 CET    2018-12-19 22:52 JST
+2018-12-19 15:52 CET    2018-12-19 23:52 JST
+--- snip --- snip --- snip ---
+2018-12-19 22:52 CET    2018-12-20 06:52 JST
+2018-12-19 23:52 CET    2018-12-20 07:52 JST
+.Ed
+.Pp
+The command:
+.Pp
+.Dl "tzdiff Lond New 0"
+.Pp
+will display:
+.Bd -literal -offset indent
+Europe/London           America/New_York
+2018-12-19 13:00 GMT    2018-12-19 08:00 EST    2018-12-19 22:00 JST
+2018-12-19 14:00 GMT    2018-12-19 09:00 EST    2018-12-19 23:00 JST
+--- snip --- snip --- snip ---
+2018-12-19 21:00 GMT    2018-12-19 16:00 EST    2018-12-20 06:00 JST
+2018-12-19 22:00 GMT    2018-12-19 17:00 EST    2018-12-20 07:00 JST
+.Ed
+.Sh AUTHOR
+Written by Masato Minda
+.Sh SEE ALSO
+.Xr date 1 ,
+.Xr strftime 3 ,
+.Xr strptime 3
+.br
+.Nm
+on Github:
+<https://github.com/belgianbeer/tzdiff>
