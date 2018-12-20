@@ -23,12 +23,12 @@
 .\"  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\"  SUCH DAMAGE.
 .\"
-.Dd Dec 20, 2018
+.Dd Dec 21, 2018
 .Dt TZDIFF 1
-.OS
+.Os
 .Sh NAME
 .Nm tzdiff
-.Nd timezone differences in multiple timzones.
+.Nd displays timezone differences with localtime.
 .Sh SYNOPSIS
 .Nm
 .Op Fl 0
@@ -42,39 +42,52 @@ timzone
 .Sh DESCRIPTION
 The
 .Nm
-utility displays the localtime of the designated city and your current city.
+utility displays the localtime of the designated timezone and yours.
 .Pp
 The
 .Nm
-utility needs at least one of timezone name, such as 'Asia/Tokyo'.
-If the argument is 'Asia' then 
+utility needs at least one of timezone name, such as
+.Dq Asia/Tokyo .
+If the argument is
+.Dq Asia
+then
 .Nm
-displays the cities of Asia. You can easy to choose it from the result.
+displays the timezones of Asia. You can easy to choose it from the result.
 .Pp
 The
 .Nm
-supports the complition with name of city for useful.
-For example, 'Tok' means 'Asia/Tokyo'.
+supports the complition with name of timezone for useful.
+For example,
+.Dq Tok
+means
+.Dq Asia/Tokyo .
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl 0
-round down to hour. 0(zero) may be specified as the last argument.
-.It Fl n
+Round down to hour. 0(zero) may be specified as the last argument.
+.It Fl n Ar count
 Number of hours. Default is 10. It may be specified as the last argument.
 .It Fl h
 Show usage.
-.It Fl f Ar count
-Output format of time. It uses output format of date(1).
+.It Fl f Ar fmt
+Output format of time. It uses output format of
+.Xr date 1
 .It Fl t Ar arg
 Specify the start time.
-It supports one of 'YYYY-mm-ddThh:mm' or 'YYYYmmddThhmm'.
+It supports one of
+.Dq YYYY-mm-ddThh:mm
+or
+.Dq YYYYmmddThhmm .
 .Sh EXAMPLES
+These exsamples are in JST.
+.Pp
 The command:
 .Pp
-.Dl "tzdiff"
+.Dl tzdiff
 .Pp
-will display the result of 'ls -F /usr/share/zoneinfo' :
+will display the result of
+.Dq "ls -F /usr/share/zoneinfo" :
 .Bd -literal -offset indent
 Africa/       Australia/    Etc/          MST           WET
 America/      CET           Europe/       MST7MDT       posixrules
@@ -85,9 +98,10 @@ Atlantic/     EST5EDT       MET           UTC
 .Pp
 The command:
 .Pp
-.Dl "tzdiff Europe"
+.Dl "tzdiff Eu"
 .Pp
-will display the result of 'ls -F /usr/share/zoneinfo/Europe':
+will display the result of
+.Dq "ls -F /usr/share/zoneinfo/Europe" :
 .Bd -literal -offset indent
 Europe/Amsterdam        Europe/Kiev             Europe/Sarajevo
 Europe/Andorra          Europe/Kirov            Europe/Saratov
@@ -113,24 +127,22 @@ Europe/Amsterdam
 .Pp
 The command:
 .Pp
-.Dl "tzdiff Lond New 0"
+.Dl "tzdiff Lond New_ 0 3"
 .Pp
 will display:
 .Bd -literal -offset indent
 Europe/London           America/New_York
-2018-12-19 13:00 GMT    2018-12-19 08:00 EST    2018-12-19 22:00 JST
-2018-12-19 14:00 GMT    2018-12-19 09:00 EST    2018-12-19 23:00 JST
---- snip --- snip --- snip ---
-2018-12-19 21:00 GMT    2018-12-19 16:00 EST    2018-12-20 06:00 JST
-2018-12-19 22:00 GMT    2018-12-19 17:00 EST    2018-12-20 07:00 JST
+2018-12-20 01:00 GMT    2018-12-19 20:00 EST    2018-12-20 10:00 JST
+2018-12-20 02:00 GMT    2018-12-19 21:00 EST    2018-12-20 11:00 JST
+2018-12-20 03:00 GMT    2018-12-19 22:00 EST    2018-12-20 12:00 JST
 .Ed
-.Sh AUTHOR
-Written by Masato Minda
 .Sh SEE ALSO
 .Xr date 1 ,
 .Xr strftime 3 ,
 .Xr strptime 3
-.br
+.Pp
 .Nm
-on Github:
-<https://github.com/belgianbeer/tzdiff>
+on Github: https://github.com/belgianbeer/tzdiff
+.Sh AUTHOR
+Written by
+.An Masato Minda

@@ -1,6 +1,6 @@
 # tzdiff
 
-Show Timezone differences with local time in CLI (shell script)
+Displays Timezone differences with localtime in CLI (shell script)
 
 *Tzdiff or Timediff ?*
 

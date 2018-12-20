@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#  tzdiff - show timezone differences at the place
+#  tzdiff - displays timezone differences with localtime.
 #
 #  Copyright (c) 2016 - 2018 Masato Minda
 #  All rights reserved.
@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.45 2018/10/15 03:47:50 minmin Exp $
+#  $Id: tzdiff,v 1.47 2018/12/20 01:37:37 minmin Exp $
 
 format='%F %R %Z'
 max=10
