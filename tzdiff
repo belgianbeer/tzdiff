@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.47 2018/12/20 01:37:37 minmin Exp $
+#  $Id: tzdiff,v 1.49 2018/12/28 07:18:44 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -128,18 +128,12 @@ else
 
 	FreeBSD|Darwin)
 		__date_parse () {
-			date -j -f %Y%m%dT%H%M `echo ${1}| tr -d :-` +%s
+			date -j -f %Y%m%dT%H%M $(echo ${1}| tr -d :-) +%s
 		}
 		;;
 	*)
 		__date_parse () {		# NetBSD / OpenBSD
-			local _tmp _ret
-			_tmp=`mktemp /tmp/.tzdiffXXXXXXXXXX`
-			trap "rm -f ${_tmp}" 0 1 2 3 5 15
-			touch -t `echo ${1} | tr -d 'T:-'` ${_tmp} || exit
-			_ret=`stat -f %Sm -t %s ${_tmp}`
-			rm -f ${_tmp}
-			echo ${_ret}
+			date -j +%s $(echo ${1} | tr -d 'T:-')
 		}
 		;;
 	esac

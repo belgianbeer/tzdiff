@@ -27,13 +27,11 @@ Tzdiff with timezone will display the time differences of remote time with local
 
 ### FreeBSD
 
-You can easy to install pkg or ports.
-
-Using pkg
+pkg
 
     $ sudo pkg install tzdiff
 
-Using ports
+ports
 
     $ sudo portsnap auto
     $ cd /usr/ports/misc/tzdiff
