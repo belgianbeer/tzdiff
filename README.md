@@ -2,18 +2,18 @@
 
 Displays Timezone differences with localtime in CLI (shell script)
 
-*Tzdiff or Timediff ?*
+## Tzdiff or Timediff ?
 
 This command was originally "timediff". Now, it's "tzdiff" because of naming conflict.
 
-*Usage*
+## Usage
 
     tzdiff [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
 
 Tzdiff with no arguments will display list of timezones.
 Tzdiff with timezone will display the time differences of remote time with local time.
 
-*Options*
+### Options
 
 * -h: show usage
 * -0: round down to hour
@@ -23,7 +23,40 @@ Tzdiff with timezone will display the time differences of remote time with local
  'YYYY-mm-ddTHH:MM' or 'YYYYmmddTHHMM' is ok.
 * -H: beccom the scripting mode. Fields are explicitly separated by single tab instead of an arbitrary space.
 
-*Example* (Author's timezone is JST)
+## Install
+
+### FreeBSD
+
+You can easy to install pkg or ports.
+
+Using pkg
+
+   $ sudo pkg install tzdiff
+
+Using ports
+
+   $ sudo portsnap auto
+   $ cd /usr/ports/misc/tzdiff
+   $ sudo make install && sudo make clean
+
+### macOS
+
+MacPorts (may be soon)
+
+   $ sudo port sync
+   $ sudo port install tzdiff
+
+Homebrew
+
+   $ brew tap belgianbeer/minmin
+   $ brew install tzdiff
+
+### Debian / Ubuntu (may be soon)
+
+   $ sudo apt update
+   $ sudo apt install tzdiff
+
+## Example (Author's timezone is JST)
 
     $ tzdiff
     Africa/         Australia/      Etc/            MST             WET
@@ -89,6 +122,6 @@ It is easy to check changes from daylight saving time to standard time
 
 Tzdiff works with the following operating systems.
 
-* OS X / FreeBSD / NetBSD / OpenBSD (It may work on DragonFly BSD.)
+* macOS / FreeBSD / NetBSD / OpenBSD (It may work on DragonFly BSD.)
 * Debian / Ubuntu / CentOS and many Linux distros
 * Windows subsystem for Linux
