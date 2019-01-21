@@ -31,30 +31,30 @@ You can easy to install pkg or ports.
 
 Using pkg
 
-   $ sudo pkg install tzdiff
+    $ sudo pkg install tzdiff
 
 Using ports
 
-   $ sudo portsnap auto
-   $ cd /usr/ports/misc/tzdiff
-   $ sudo make install && sudo make clean
+    $ sudo portsnap auto
+    $ cd /usr/ports/misc/tzdiff
+    $ sudo make install && sudo make clean
 
 ### macOS
 
 MacPorts (may be soon)
 
-   $ sudo port sync
-   $ sudo port install tzdiff
+    $ sudo port sync
+    $ sudo port install tzdiff
 
 Homebrew
 
-   $ brew tap belgianbeer/minmin
-   $ brew install tzdiff
+    $ brew tap belgianbeer/minmin
+    $ brew install tzdiff
 
 ### Debian / Ubuntu (may be soon)
 
-   $ sudo apt update
-   $ sudo apt install tzdiff
+    $ sudo apt update
+    $ sudo apt install tzdiff
 
 ## Example (Author's timezone is JST)
 
