@@ -27,34 +27,33 @@ Tzdiff with timezone will display the time differences of remote time with local
 
 ### FreeBSD
 
-pkg
+If you are pkg user, you can easy to install tzdiff like this.
 
     $ sudo pkg install tzdiff
 
-ports
-
-    $ sudo portsnap auto
-    $ cd /usr/ports/misc/tzdiff
-    $ sudo make install && sudo make clean
+Of course, it is already in ports. You can easy to play with ports.
 
 ### macOS
 
-MacPorts (may be soon)
+If you are MacPorts user, you can easy to install tzdiff.
 
-    $ sudo port sync
     $ sudo port install tzdiff
 
-Homebrew
+If you are Homebrew user, tzdiff is supported by personal tap.
 
     $ brew tap belgianbeer/minmin
     $ brew install tzdiff
 
-### Debian / Ubuntu (may be soon)
+### Debian / Ubuntu
+
+Currently, tzdiff become a debian pkg in progress. ( [tzdiff in Debin pkg](https://tracker.debian.org/pkg/tzdiff) ) In near future, it can easy to install by apt command.
 
     $ sudo apt update
     $ sudo apt install tzdiff
 
-## Example (Author's timezone is JST)
+## Examples
+
+In these examples, author's timezone is JST.
 
     $ tzdiff
     Africa/         Australia/      Etc/            MST             WET
