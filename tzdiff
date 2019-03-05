@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.49 2018/12/28 07:18:44 minmin Exp $
+#  $Id: tzdiff,v 1.50 2019/03/05 06:21:07 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -92,14 +92,17 @@ __make_column () {
 }
 
 __usage () {
-echo "Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
-	-0 : round down to hour
-	-n : max hours (default: 10)
-	-f : output format (using '+output_fmt' of 'date' command)
-	-t : start time (YYYY-mm-ddThh:mm or YYYYmmddThhmm)
-	-H : scripting mode.
-	more info: <https://github.com/belgianbeer/tzdiff>" >&2
 
+	cat <<- EOT >&2
+	Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
+	    -0:  round down to hour
+	    -n:  max hours (default: 10)
+	    -f:  output format (using '+output_fmt' of 'date' command)
+	    -t:  start time (YYYY-mm-ddThh:mm or YYYYmmddThhmm)
+	    -H:  scripting mode (with timezone name)
+	    -HH: scripting mode (without timezone name)
+	    -N:  without localtime
+	EOT
 	exit 2
 }
 
@@ -124,6 +127,7 @@ else
 			date -j -r ${1} +"${format}"
 		fi
 	}
+
 	case `uname -s` in
 
 	FreeBSD|Darwin)
@@ -141,19 +145,23 @@ fi
 
 cd /usr/share/zoneinfo || exit
 
-while getopts '0hHn:f:t:' cmd_arg
+while getopts '0hHNn:f:t:' cmd_arg
 do
 	case "${cmd_arg}" in
 	0)	zero_flag=YES ;;
 	n)	max=${OPTARG} ;;
 	f)	format="${OPTARG}" ;;
 	t)	nt=${OPTARG} ;;
-	H)	H_flag=YES ;;
+	H)	H_flag=$((H_flag + 1)) ;;
+	N)	N_flag=YES ;;
 	h|*)	__usage ;;
 	esac
 done >&2
 
 shift $((OPTIND - 1))
+
+fs='   '				# 3 spaces
+[ ! -z "${H_flag}" ] && fs='	'	# TAB
 
 if [ $# -eq 0 ]; then
 	ls -F
@@ -206,10 +214,11 @@ do
 	eval tz=\$tz${i}
 	eval fmt${i}=$(__make_column ${tz})
 	eval fmt=\$fmt${i}
-	[ -z "${H_flag}" ] && printf "${fmt}\t" "${tz}"
+	[ -z "${H_flag}" ] || [ ${H_flag} -eq 1 ] && printf "${fmt}" "${tz}"
 	i=$((i + 1))
+	[ ! -z "${N_flag}" -a ${i} -eq ${id} ] || printf "${fs}"
 done
-[ -z "${H_flag}" ] && echo ''
+[ -z "${H_flag}" ] || [ ${H_flag} -eq 1 ] && echo
 
 j=0
 while [ ${j} -lt ${max} ]
@@ -219,10 +228,15 @@ do
 	do
 		eval tz=\$tz${i}
 		eval fmt=\$fmt${i}
-		printf "${fmt}\t" "$(__date_with_format ${ut} ${tz})"
+		printf "${fmt}" "$(__date_with_format ${ut} ${tz})"
 		i=$((i + 1))
+		[ ! -z "${N_flag}" -a ${i} -eq ${id} ] || printf "${fs}"
 	done
-	__date_with_format ${ut}
+	if [ -z "${N_flag}" ]; then
+		__date_with_format ${ut}
+	else
+		echo
+	fi
 	ut=$((ut + 3600))
 	j=$((j + 1))
 done

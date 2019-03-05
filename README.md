@@ -21,7 +21,9 @@ Tzdiff with timezone will display the time differences of remote time with local
 * -f format: output format (using '+output_fmt' of date(1))
 * -t time: set the start time instead of current time.
  'YYYY-mm-ddTHH:MM' or 'YYYYmmddTHHMM' is ok.
-* -H: beccom the scripting mode. Fields are explicitly separated by single tab instead of an arbitrary space.
+* -H: became the scripting mode. Fields are explicitly separated by single tab instead of an arbitrary space.
+* -HH: became the scripting mode without timzone name.
+* -N: display without local timezone.
 
 ## Install
 
@@ -39,7 +41,7 @@ If you are MacPorts user, you can easy to install tzdiff.
 
     $ sudo port install tzdiff
 
-If you are Homebrew user, tzdiff is supported by personal tap.
+If you are Homebrew user, you can install by personal tap.
 
     $ brew tap belgianbeer/minmin
     $ brew install tzdiff
