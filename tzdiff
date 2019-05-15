@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.50 2019/03/05 06:21:07 minmin Exp $
+#  $Id: tzdiff,v 1.51 2019/05/15 02:49:35 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -76,7 +76,7 @@ __set_zoneinfo () {
 }
 
 __make_column () {
-	if [ ! -z "${H_flag}" ]; then
+	if [ ${H_flag} -ne 0 ]; then
 		echo "%s"
 		return
 	fi
@@ -145,6 +145,8 @@ fi
 
 cd /usr/share/zoneinfo || exit
 
+H_flag=0
+
 while getopts '0hHNn:f:t:' cmd_arg
 do
 	case "${cmd_arg}" in
@@ -161,7 +163,7 @@ done >&2
 shift $((OPTIND - 1))
 
 fs='   '				# 3 spaces
-[ ! -z "${H_flag}" ] && fs='	'	# TAB
+[ ${H_flag} -ne 0 ] && fs='	'	# TAB
 
 if [ $# -eq 0 ]; then
 	ls -F
@@ -205,27 +207,38 @@ x)
 esac
 
 if [ x${zero_flag} = x"YES" ]; then
-	ut=$(( ($ut/3600)*3600 ))
+	ut=$(( ( ${ut} / 3600 ) * 3600 ))	# round down
 fi
 
+# make format
 i=0
-while [ ${i} -lt ${id} ]
-do
+while [ ${i} -lt ${id} ]; do
 	eval tz=\$tz${i}
 	eval fmt${i}=$(__make_column ${tz})
-	eval fmt=\$fmt${i}
-	[ -z "${H_flag}" ] || [ ${H_flag} -eq 1 ] && printf "${fmt}" "${tz}"
 	i=$((i + 1))
-	[ ! -z "${N_flag}" -a ${i} -eq ${id} ] || printf "${fs}"
 done
-[ -z "${H_flag}" ] || [ ${H_flag} -eq 1 ] && echo
 
+# print timezone name
+if [ ${H_flag} -lt 2 ]; then
+	i=0
+	while [ ${i} -lt ${id} ]; do
+		eval tz=\$tz${i}
+		eval fmt=\$fmt${i}
+		i=$((i + 1))
+		if [ ${i} -eq ${id} ]; then
+			printf "%s\n" "${tz}"
+		else
+			printf "${fmt}${fs}" "${tz}"
+		fi
+	done
+fi
+
+# print time
 j=0
 while [ ${j} -lt ${max} ]
 do
 	i=0
-	while [ ${i} -lt ${id} ]
-	do
+	while [ ${i} -lt ${id} ]; do
 		eval tz=\$tz${i}
 		eval fmt=\$fmt${i}
 		printf "${fmt}" "$(__date_with_format ${ut} ${tz})"
