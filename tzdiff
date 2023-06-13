@@ -73,6 +73,11 @@ __set_zoneinfo () {
 			fi
 		fi
 	done
+
+	case ${zi} in
+	*/*)	city=${zi##*/} ;;
+	*)	city=${zi} ;;
+	esac
 }
 
 __make_column () {
@@ -214,7 +219,8 @@ fi
 i=0
 while [ ${i} -lt ${id} ]; do
 	eval tz=\$tz${i}
-	eval fmt${i}=$(__make_column ${tz})
+	eval city=\$city${i}
+	eval fmt${i}=$(__make_column ${city})
 	i=$((i + 1))
 done
 
@@ -223,12 +229,13 @@ if [ ${H_flag} -lt 2 ]; then
 	i=0
 	while [ ${i} -lt ${id} ]; do
 		eval tz=\$tz${i}
+		eval city=\$city${i}
 		eval fmt=\$fmt${i}
 		i=$((i + 1))
 		if [ ${i} -eq ${id} ]; then
-			printf "%s\n" "${tz}"
+			printf "%s\n" "${city}"
 		else
-			printf "${fmt}${fs}" "${tz}"
+			printf "${fmt}${fs}" "${city}"
 		fi
 	done
 fi
