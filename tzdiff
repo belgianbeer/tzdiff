@@ -2,7 +2,7 @@
 #
 #  tzdiff - displays timezone differences with localtime.
 #
-#  Copyright (c) 2016 - 2018 Masato Minda
+#  Copyright (c) 2016 - 2023 Masato Minda
 #  All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.52 2020/10/15 02:26:31 minmin Exp $
+#  $Id: tzdiff,v 1.54 2023/06/14 03:38:32 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -108,6 +108,7 @@ __usage () {
 	Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
 	    -0:  round down to hour
 	    -n:  max hours (default: 10)
+	    -l:  full timezone name
 	    -f:  output format (using '+output_fmt' of 'date' command)
 	    -t:  start time (YYYY-mm-ddThh:mm or YYYYmmddThhmm)
 	    -H:  scripting mode (with timezone name)
