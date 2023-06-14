@@ -113,6 +113,7 @@ __usage () {
 
 if date --version >/dev/null 2>&1; then
 	# for GNU date
+	g_date=YES
 	__date_with_format () {
 		if [ $# -eq 2 ]; then
 			TZ=:${2} date --date=@${1} +"${format}"
@@ -139,10 +140,16 @@ else
 		__date_parse () {
 			date -j -f %Y%m%dT%H%M $(echo ${1}| tr -d :-) +%s
 		}
+		__date_parse_utc () {
+			TZ=UTC date -j -f %Y%m%dT%H%M $(echo ${1} | tr -d Z:-) +%s
+		}
 		;;
 	*)
 		__date_parse () {		# NetBSD / OpenBSD
 			date -j +%s $(echo ${1} | tr -d 'T:-')
+		}
+		__date_parse_utc () {
+			date -j +%s $(echo ${1} | tr -d 'TZ:-')
 		}
 		;;
 	esac
@@ -152,13 +159,14 @@ cd /usr/share/zoneinfo || exit
 
 H_flag=0
 
-while getopts '0hHNn:f:t:' cmd_arg
+while getopts '0hlHNn:f:t:' cmd_arg
 do
 	case "${cmd_arg}" in
 	0)	zero_flag=YES ;;
+	l)	l_flag=YES ;;
 	n)	max=${OPTARG} ;;
 	f)	format="${OPTARG}" ;;
-	t)	nt=${OPTARG} ;;
+	t)	t_flag=YES nt=${OPTARG} ;;
 	H)	H_flag=$((H_flag + 1)) ;;
 	N)	N_flag=YES ;;
 	h|*)	__usage ;;
@@ -191,6 +199,7 @@ do
 	*)
 		__set_zoneinfo "${1}"
 		eval tz${id}=${zi}
+		eval city${id}=${city}
 		id=$((id + 1))
 		;;
 	esac
@@ -201,15 +210,22 @@ if [ ${id} -eq 0 ]; then
 	__usage
 fi
 
-case "x${nt}" in
+if [ -n "${nt}" ]; then
+	if [ -n "${g_date}" ]; then
+		ut=`__date_parse "${nt}"` || exit
+	else
+		case "${nt}" in
 
-x[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9] | x[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9])
-	ut=`__date_parse "${nt}"` || exit ;;
-x)
-	ut=`date +%s`;;
-*)
-	__usage;;
-esac
+		[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9] | [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9])
+			ut=`__date_parse "${nt}"` || exit ;;
+		[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]Z | [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9]Z)
+			ut=`__date_parse_utc "${nt}"` || exit ;;
+		*)	__usage ;;
+		esac
+	fi
+else
+	ut=`date +%s`
+fi
 
 if [ x${zero_flag} = x"YES" ]; then
 	ut=$(( ( ${ut} / 3600 ) * 3600 ))	# round down
@@ -218,9 +234,13 @@ fi
 # make format
 i=0
 while [ ${i} -lt ${id} ]; do
-	eval tz=\$tz${i}
-	eval city=\$city${i}
-	eval fmt${i}=$(__make_column ${city})
+	if [ -n "${l_flag}" ]; then
+		eval tz=\$tz${i}
+		eval fmt${i}=$(__make_column ${tz})
+	else
+		eval city=\$city${i}
+		eval fmt${i}=$(__make_column ${city})
+	fi
 	i=$((i + 1))
 done
 
@@ -233,9 +253,17 @@ if [ ${H_flag} -lt 2 ]; then
 		eval fmt=\$fmt${i}
 		i=$((i + 1))
 		if [ ${i} -eq ${id} ]; then
-			printf "%s\n" "${city}"
+			if [ -n "${l_flag}" ]; then
+				printf "%s\n" "${tz}"
+			else
+				printf "%s\n" "${city}"
+			fi
 		else
-			printf "${fmt}${fs}" "${city}"
+			if [ -n "${l_flag}" ]; then
+				printf "${fmt}${fs}" "${tz}"
+			else
+				printf "${fmt}${fs}" "${city}"
+			fi
 		fi
 	done
 fi
