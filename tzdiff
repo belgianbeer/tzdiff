@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.54 2023/06/14 03:38:32 minmin Exp $
+#  $Id: tzdiff,v 1.56 2023/06/14 22:55:37 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -40,7 +40,6 @@ __check_match () {
 }
 
 __set_zoneinfo () {
-
 	case "${1}" in
 	*\**)
 		__check_match "${1}*"
@@ -103,14 +102,13 @@ __make_column () {
 }
 
 __usage () {
-
 	cat <<- EOT >&2
 	Usage: ${0##*/} [-0] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
 	    -0:  round down to hour
 	    -n:  max hours (default: 10)
 	    -l:  full timezone name
 	    -f:  output format (using '+output_fmt' of 'date' command)
-	    -t:  start time (YYYY-mm-ddThh:mm or YYYYmmddThhmm)
+	    -t:  start time (YYYY-mm-ddThh:mm or[Z] YYYYmmddThhmm[Z])
 	    -H:  scripting mode (with timezone name)
 	    -HH: scripting mode (without timezone name)
 	    -N:  without localtime
@@ -118,54 +116,61 @@ __usage () {
 	exit 2
 }
 
-if date --version >/dev/null 2>&1; then
-	# for GNU date
-	g_date=YES
-	__date_with_format () {
-		if [ $# -eq 2 ]; then
-			TZ=:${2} date --date=@${1} +"${format}"
-		else
-			date --date=@${1} +"${format}"
-		fi
-	}
-	__date_parse () {
-		date --date="${1}" +%s
-	}
-else
-	# for BSD date
-	__date_with_format () {
-		if [ $# -eq 2 ]; then
-			TZ=:${2} date -j -r ${1} +"${format}"
-		else
-			date -j -r ${1} +"${format}"
-		fi
-	}
+__setup () {
+	if date --version >/dev/null 2>&1; then
+		# for GNU date
+		g_date=YES
+		__date_with_format () {
+			if [ $# -eq 2 ]; then
+				TZ=:${2} date --date=@${1} +"${format}"
+			else
+				date --date=@${1} +"${format}"
+			fi
+		}
+	else
+		# for traditional date
+		__date_with_format () {
+			if [ $# -eq 2 ]; then
+				TZ=:${2} date -j -r ${1} +"${format}"
+			else
+				date -j -r ${1} +"${format}"
+			fi
+		}
+	fi
+}
 
-	case `uname -s` in
+__set_unixtime () {
+	if [ -n "${nt}" ]; then
+		if [ -n "${g_date}" ]; then
+			ut=`date --date="${nt}" +%s` || exit
+		else
+			case "${nt}" in
+			[0-9][0-9][0-9][0-9]-[01][0-9]-[0-3][0-9]T[012][0-9]:[0-5][0-9] | \
+			[0-9][0-9][0-9][0-9][01][0-9][0-3][0-9]T[012][0-9][0-5][0-9] )
+				ut=`date -j +%s $(echo ${nt} | tr -d 'T:-')` || exit
+				;;
+			[0-9][0-9][0-9][0-9]-[01][0-9]-[0-3][0-9]T[012][0-9]:[0-5][0-9]Z | \
+			[0-9][0-9][0-9][0-9][01][0-9][0-3][0-9]T[012][0-9][0-5][0-9]Z )
+				ut=`TZ=UTC date -j +%s $(echo ${1} | tr -d 'TZ:-')` || exit
+				;;
+			*)	__usage ;;
+			esac
+		fi
+	else
+		ut=`date +%s`
+	fi
 
-	FreeBSD|Darwin)
-		__date_parse () {
-			date -j -f %Y%m%dT%H%M $(echo ${1}| tr -d :-) +%s
-		}
-		__date_parse_utc () {
-			TZ=UTC date -j -f %Y%m%dT%H%M $(echo ${1} | tr -d Z:-) +%s
-		}
-		;;
-	*)
-		__date_parse () {		# NetBSD / OpenBSD
-			date -j +%s $(echo ${1} | tr -d 'T:-')
-		}
-		__date_parse_utc () {
-			TZ=UTC date -j +%s $(echo ${1} | tr -d 'TZ:-')
-		}
-		;;
-	esac
-fi
+	if [ x${zero_flag} = x"YES" ]; then
+		ut=$(( ( ${ut} / 3600 ) * 3600 ))	# round down to hour
+	fi
+}
+
+# ----- begin tzdiff -----
 
 cd /usr/share/zoneinfo || exit
+__setup
 
 H_flag=0
-
 while getopts '0hlHNn:f:t:' cmd_arg
 do
 	case "${cmd_arg}" in
@@ -179,7 +184,6 @@ do
 	h|*)	__usage ;;
 	esac
 done >&2
-
 shift $((OPTIND - 1))
 
 fs='   '				# 3 spaces
@@ -191,7 +195,6 @@ if [ $# -eq 0 ]; then
 fi
 
 id=0
-
 while [ $# -gt 0 ]
 do
 	case $1 in
@@ -217,26 +220,7 @@ if [ ${id} -eq 0 ]; then
 	__usage
 fi
 
-if [ -n "${nt}" ]; then
-	if [ -n "${g_date}" ]; then
-		ut=`__date_parse "${nt}"` || exit
-	else
-		case "${nt}" in
-
-		[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9] | [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9])
-			ut=`__date_parse "${nt}"` || exit ;;
-		[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]Z | [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9]Z)
-			ut=`__date_parse_utc "${nt}"` || exit ;;
-		*)	__usage ;;
-		esac
-	fi
-else
-	ut=`date +%s`
-fi
-
-if [ x${zero_flag} = x"YES" ]; then
-	ut=$(( ( ${ut} / 3600 ) * 3600 ))	# round down
-fi
+__set_unixtime
 
 # make format
 i=0
@@ -251,7 +235,7 @@ while [ ${i} -lt ${id} ]; do
 	i=$((i + 1))
 done
 
-# print timezone name
+# print location
 if [ ${H_flag} -lt 2 ]; then
 	i=0
 	while [ ${i} -lt ${id} ]; do
