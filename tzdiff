@@ -86,13 +86,19 @@ __make_column () {
 		return
 	fi
 
-	_ltz="${1}"
-	_ltd="$(__date_with_format ${ut} ${_ltz})"
-
-	if [ ${#_ltz} -gt ${#_ltd} ]; then
-		echo "%-${#_ltz}s"
+	_ltd="$(__date_with_format ${ut} ${1})"
+	if [ -n "${2}" ]; then
+		if [ ${#2} -gt ${#_ltd} ]; then
+			echo "%-${#2}s"
+		else
+			echo "%-${#_ltd}s"
+		fi
 	else
-		echo "%-${#_ltd}s"
+		if [ ${#1} -gt ${#_ltd} ]; then
+			echo "%-${#1}s"
+		else
+			echo "%-${#_ltd}s"
+		fi
 	fi
 }
 
@@ -234,12 +240,12 @@ fi
 # make format
 i=0
 while [ ${i} -lt ${id} ]; do
+	eval tz=\$tz${i}
 	if [ -n "${l_flag}" ]; then
-		eval tz=\$tz${i}
 		eval fmt${i}=$(__make_column ${tz})
 	else
 		eval city=\$city${i}
-		eval fmt${i}=$(__make_column ${city})
+		eval fmt${i}=$(__make_column ${tz} ${city})
 	fi
 	i=$((i + 1))
 done
@@ -251,6 +257,7 @@ if [ ${H_flag} -lt 2 ]; then
 		eval tz=\$tz${i}
 		eval city=\$city${i}
 		eval fmt=\$fmt${i}
+
 		i=$((i + 1))
 		if [ ${i} -eq ${id} ]; then
 			if [ -n "${l_flag}" ]; then
