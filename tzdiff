@@ -149,7 +149,7 @@ else
 			date -j +%s $(echo ${1} | tr -d 'T:-')
 		}
 		__date_parse_utc () {
-			date -j +%s $(echo ${1} | tr -d 'TZ:-')
+			TZ=UTC date -j +%s $(echo ${1} | tr -d 'TZ:-')
 		}
 		;;
 	esac
@@ -166,7 +166,7 @@ do
 	l)	l_flag=YES ;;
 	n)	max=${OPTARG} ;;
 	f)	format="${OPTARG}" ;;
-	t)	t_flag=YES nt=${OPTARG} ;;
+	t)	nt=${OPTARG} ;;
 	H)	H_flag=$((H_flag + 1)) ;;
 	N)	N_flag=YES ;;
 	h|*)	__usage ;;
