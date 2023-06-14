@@ -23,7 +23,7 @@ Tzdiff with timezone will display the time differences of remote time with local
 * -HH: became the scripting mode without timzone name.
 * -N: display without local timezone.
 
-### -t time
+### Format of "-t time" option
 
 If your system has the GNU date, you can use the flexible format. Otherwise, specify as 'YYYY-mm-ddTHH:MM' or 'YYYYmmddTHHMM' and adding 'Z' at the end makes it UTC.
 
@@ -58,6 +58,8 @@ If you are Homebrew user, you can install with personal tap.
 $ brew tap belgianbeer/minmin
 $ brew install tzdiff
 ```
+
+(as of 2023-06): I am applying for registration with HomeBrew. If this application goes through, you might be better off with just "brew install tzdiff".
 
 ### Debian / Ubuntu
 
@@ -115,7 +117,7 @@ New_York
 2023-06-14 04:00 EDT   2023-06-14 17:00 JST
 ```
 
-It is easy to check changes from daylight saving time to standard time
+It is easy to check changes from daylight saving time to standard time.
 
 ```
 $ tzdiff -t 2017-11-05T11:00 Los New_ Brus
@@ -132,7 +134,7 @@ Los_Angeles            New_York               Brussels
 2017-11-05 03:00 PST   2017-11-05 06:00 EST   2017-11-05 12:00 CET   2017-11-05 20:00 JST
 ```
 
-Specifying "0" and "24" at the end is convenient when you want to know what time 19:00 is your time in a foreign country.
+Specifying "0" and "24" at the end is convenient when you want to know what time 19:00 is your time in a foreign country. It is quicker to display 24 hours than to think.
 
 ```
 $ tzdiff Brus 24 0
@@ -150,7 +152,7 @@ Brussels
 2023-06-14 16:00 CEST   2023-06-14 23:00 JST
 2023-06-14 17:00 CEST   2023-06-15 00:00 JST
 2023-06-14 18:00 CEST   2023-06-15 01:00 JST
-2023-06-14 19:00 CEST   2023-06-15 02:00 JST     <= This is your answer
+2023-06-14 19:00 CEST   2023-06-15 02:00 JST   <= This line is the result you want.
 2023-06-14 20:00 CEST   2023-06-15 03:00 JST
 2023-06-14 21:00 CEST   2023-06-15 04:00 JST
 2023-06-14 22:00 CEST   2023-06-15 05:00 JST
