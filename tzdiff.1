@@ -64,12 +64,14 @@ means
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
-.It Fl 0
-Round down to hour. 0(zero) may be specified as the last argument.
-.It Fl n Ar count
-Number of hours. Default is 10. It may be specified as the last argument.
 .It Fl h
 Show usage.
+.It Fl 0
+Round down to hour. 0(zero) may be specified as the last argument.
+.It Fl l
+Display full timezone name
+.It Fl n Ar count
+Number of hours. Default is 10. It may be specified as the last argument.
 .It Fl f Ar fmt
 Output format of time. It uses output format of
 .Xr date 1
@@ -124,7 +126,7 @@ The command:
 will display the time of CET and localtime.:
 .Pp
 .Bd -literal -offset indent
-Europe/Amsterdam
+Amsterdam
 2018-12-19 14:52 CET    2018-12-19 22:52 JST
 2018-12-19 15:52 CET    2018-12-19 23:52 JST
 --- snip --- snip --- snip ---
@@ -138,7 +140,7 @@ The command:
 .Pp
 will display:
 .Bd -literal -offset indent
-Europe/London           America/New_York
+London                  New_York
 2018-12-20 01:00 GMT    2018-12-19 20:00 EST    2018-12-20 10:00 JST
 2018-12-20 02:00 GMT    2018-12-19 21:00 EST    2018-12-20 11:00 JST
 2018-12-20 03:00 GMT    2018-12-19 22:00 EST    2018-12-20 12:00 JST
