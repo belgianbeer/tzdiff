@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.57 2023/06/15 01:29:47 minmin Exp $
+#  $Id: tzdiff,v 1.58 2023/06/15 23:36:03 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -196,7 +196,7 @@ do
 	N)	N_flag=YES ;;
 	h|*)	__usage ;;
 	esac
-done >&2
+done
 shift $((OPTIND - 1))
 
 fs='   '				# 3 spaces
