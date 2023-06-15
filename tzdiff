@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.56 2023/06/14 22:55:37 minmin Exp $
+#  $Id: tzdiff,v 1.57 2023/06/15 01:29:47 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -139,6 +139,17 @@ __setup () {
 	fi
 }
 
+__conv_timestring () {
+	case `uname -s` in
+	Darwin)
+		echo ${nt} | tr -d 'TZ:-' | sed 's/\(....\)\(........\)/\2\1/'
+		;;
+	*)
+		echo ${nt} | tr -d 'TZ:-'
+		;;
+	esac
+}
+
 __set_unixtime () {
 	if [ -n "${nt}" ]; then
 		if [ -n "${g_date}" ]; then
@@ -147,11 +158,13 @@ __set_unixtime () {
 			case "${nt}" in
 			[0-9][0-9][0-9][0-9]-[01][0-9]-[0-3][0-9]T[012][0-9]:[0-5][0-9] | \
 			[0-9][0-9][0-9][0-9][01][0-9][0-3][0-9]T[012][0-9][0-5][0-9] )
-				ut=`date -j +%s $(echo ${nt} | tr -d 'T:-')` || exit
+				nt=`__conv_timestring ${nt}`
+				ut=`date -j +%s ${nt}` || exit
 				;;
 			[0-9][0-9][0-9][0-9]-[01][0-9]-[0-3][0-9]T[012][0-9]:[0-5][0-9]Z | \
 			[0-9][0-9][0-9][0-9][01][0-9][0-3][0-9]T[012][0-9][0-5][0-9]Z )
-				ut=`TZ=UTC date -j +%s $(echo ${1} | tr -d 'TZ:-')` || exit
+				nt=`__conv_timestring ${nt}`
+				ut=`TZ=UTC date -j +%s ${nt}` || exit
 				;;
 			*)	__usage ;;
 			esac
