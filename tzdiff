@@ -139,17 +139,6 @@ __setup () {
 	fi
 }
 
-__conv_timestring () {
-	case `uname -s` in
-	Darwin)
-		echo ${nt} | tr -d 'TZ:-' | sed 's/\(....\)\(........\)/\2\1/'
-		;;
-	*)
-		echo ${nt} | tr -d 'TZ:-'
-		;;
-	esac
-}
-
 __set_unixtime () {
 	if [ -n "${nt}" ]; then
 		if [ -n "${g_date}" ]; then
@@ -158,13 +147,14 @@ __set_unixtime () {
 			case "${nt}" in
 			[0-9][0-9][0-9][0-9]-[01][0-9]-[0-3][0-9]T[012][0-9]:[0-5][0-9] | \
 			[0-9][0-9][0-9][0-9][01][0-9][0-3][0-9]T[012][0-9][0-5][0-9] )
-				nt=`__conv_timestring ${nt}`
-				ut=`date -j +%s ${nt}` || exit
+				# COMMAND_MODE is special environment variable in macOS. 
+				# See compat(5).
+				ut=`COMMAND_MODE=legacy date -j +%s $(echo ${nt} | tr -d 'T:-')` || exit
 				;;
 			[0-9][0-9][0-9][0-9]-[01][0-9]-[0-3][0-9]T[012][0-9]:[0-5][0-9]Z | \
 			[0-9][0-9][0-9][0-9][01][0-9][0-3][0-9]T[012][0-9][0-5][0-9]Z )
-				nt=`__conv_timestring ${nt}`
-				ut=`TZ=UTC date -j +%s ${nt}` || exit
+				# nt=`__conv_timestring ${nt}`
+				ut=`COMMAND_MODE=legacy TZ=UTC date -j +%s $(echo ${nt} | tr -d 'TZ:-')` || exit
 				;;
 			*)	__usage ;;
 			esac
