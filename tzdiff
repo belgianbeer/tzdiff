@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.25.2.7 2023/06/19 22:32:23 minmin Exp $
+#  $Id: tzdiff,v 1.25.2.8 2023/06/19 22:51:26 minmin Exp $
 
 format='%F %R %Z'
 max=10
@@ -50,8 +50,7 @@ __set_zoneinfo () {
 		;;
 	esac
 
-	while [ ! -f ${zi} ]
-	do
+	while [ ! -f ${zi} ]; do
 		if [ -d ${zi} ]; then
 			ls -dF ${zi}/*
 			exit 1
@@ -173,8 +172,7 @@ cd /usr/share/zoneinfo || exit
 __setup
 
 H_flag=0
-while getopts '0hlHNn:f:t:' cmd_arg
-do
+while getopts '0hlHNn:f:t:' cmd_arg; do
 	case "${cmd_arg}" in
 	0)	zero_flag=YES ;;
 	l)	l_flag=YES ;;
@@ -197,10 +195,8 @@ if [ $# -eq 0 ]; then
 fi
 
 id=0
-while [ $# -gt 0 ]
-do
+while [ $# -gt 0 ]; do
 	case $1 in
-
 	[0-9]*)
 		if [ ${1} -eq 0 ]; then
 			zero_flag=YES
@@ -264,8 +260,7 @@ fi
 
 # print time
 j=0
-while [ ${j} -lt ${max} ]
-do
+while [ ${j} -lt ${max} ]; do
 	i=0
 	while [ ${i} -lt ${id} ]; do
 		eval tz=\$tz${i}
