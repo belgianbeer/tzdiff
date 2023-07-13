@@ -26,8 +26,9 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.25.2.11 2023/07/13 08:18:10 minmin Exp $
+#  $Id: tzdiff,v 1.25.2.12 2023/07/13 09:26:01 minmin Exp $
 
+version=1.2
 format='%F %R %Z'
 max=10
 
@@ -102,17 +103,25 @@ __make_column () {
 
 __usage () {
 	cat <<- EOT >&2
-	Usage: ${0##*/} [-0] [-n count] [-f format] [-t start] timezone [timezone ...] [count] [0]
+	Usage: ${0##*/} [-0lvHN] [-n count] [-f format] [-t start] timezone [timezone ...] [count] [0]
 	    -0:  round down to hour
 	    -n:  max hours (default: 10)
 	    -l:  full timezone name
 	    -f:  output format (using '+output_fmt' of 'date' command)
 	    -t:  specify the start time (YYYY-mm-ddTHH:MM[Z], etc...)
+	    -v:  show version.
 	    -H:  scripting mode (with timezone name)
 	    -HH: scripting mode (without timezone name)
 	    -N:  without localtime
 	EOT
 	exit 2
+}
+
+__show_version () {
+	cat <<- EOT >&2
+	${0##*/} version ${version}
+	EOT
+	__usage
 }
 
 __setup () {
@@ -174,13 +183,14 @@ cd /usr/share/zoneinfo || exit
 __setup
 
 H_flag=0
-while getopts '0hlHNn:f:t:' cmd_arg; do
+while getopts '0hlvHNn:f:t:' cmd_arg; do
 	case "${cmd_arg}" in
 	0)	zero_flag=YES ;;
 	l)	l_flag=YES ;;
 	n)	max=${OPTARG} ;;
 	f)	format="${OPTARG}" ;;
 	t)	st=${OPTARG} ;;
+	v)	__show_version ;;
 	H)	H_flag=$((H_flag + 1)) ;;
 	N)	N_flag=YES ;;
 	h|*)	__usage ;;
