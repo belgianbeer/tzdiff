@@ -23,7 +23,7 @@
 .\"  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\"  SUCH DAMAGE.
 .\"
-.Dd Dec 21, 2018
+.Dd Jul 20, 2023
 .Dt TZDIFF 1
 .Os
 .Sh NAME
@@ -77,10 +77,8 @@ Output format of time. It uses output format of
 .Xr date 1
 .It Fl t Ar arg
 Specify the start time.
-It supports one of
-.Dq YYYY-mm-ddThh:mm
-or
-.Dq YYYYmmddThhmm .
+It supports one of "YYYY-mm-ddTHH:HH[Z]", "YYYYmmddTHHMM[Z]" or "YYYYmmddHHMM[Z]",
+adding "Z" means UTC. For the GNU date command, you can specify a flexible format.
 .It Fl H
 Scripting mode with timezone name. In scripting mode, field separator is TAB instead of space.
 .It Fl HH
