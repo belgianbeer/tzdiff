@@ -26,7 +26,7 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.25.2.12 2023/07/13 09:26:01 minmin Exp $
+#  $Id: tzdiff,v 1.25.2.13 2023/07/13 09:38:26 minmin Exp $
 
 version=1.2
 format='%F %R %Z'
@@ -117,11 +117,9 @@ __usage () {
 	exit 2
 }
 
-__show_version () {
-	cat <<- EOT >&2
-	${0##*/} version ${version}
-	EOT
-	__usage
+__version () {
+	echo "${0##*/} ${version}"
+	exit 0
 }
 
 __setup () {
@@ -190,7 +188,7 @@ while getopts '0hlvHNn:f:t:' cmd_arg; do
 	n)	max=${OPTARG} ;;
 	f)	format="${OPTARG}" ;;
 	t)	st=${OPTARG} ;;
-	v)	__show_version ;;
+	v)	__version ;;
 	H)	H_flag=$((H_flag + 1)) ;;
 	N)	N_flag=YES ;;
 	h|*)	__usage ;;
