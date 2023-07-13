@@ -34,7 +34,7 @@
 .Op Fl 0
 .Op Fl n Ar count
 .Op Fl f Ar format
-.Op Fl t Ar time
+.Op Fl t Ar start
 timzone
 .Op timezone ...
 .Op count
@@ -72,10 +72,10 @@ Round down to hour. 0(zero) may be specified as the last argument.
 Display full timezone name
 .It Fl n Ar count
 Number of hours. Default is 10. It may be specified as the last argument.
-.It Fl f Ar fmt
+.It Fl f Ar format
 Output format of time. It uses output format of
 .Xr date 1
-.It Fl t Ar arg
+.It Fl t Ar start
 Specify the start time.
 It supports one of "YYYY-mm-ddTHH:HH[Z]", "YYYYmmddTHHMM[Z]" or "YYYYmmddHHMM[Z]",
 adding "Z" means UTC. For the GNU date command, you can specify a flexible format.

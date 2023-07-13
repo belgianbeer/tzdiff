@@ -6,7 +6,7 @@ This command was originally "timediff". Now, it's "tzdiff" because of naming con
 
 ## Usage
 
-    tzdiff [-0l] [-n count] [-f format] [-t time] timezone [timezone ...] [count] [0]
+    tzdiff [-0l] [-n count] [-f format] [-t start] timezone [timezone ...] [count] [0]
 
 Tzdiff with no arguments will display list of timezones.
 Tzdiff with timezone will display the time differences of remote time with local time.
@@ -18,15 +18,14 @@ Tzdiff with timezone will display the time differences of remote time with local
 * -l: display full timezone name
 * -n count: max hours (default: 10)
 * -f format: output format (using '+output_fmt' of date(1))
-* -t time: set the start time instead of current time.
+* -t start: set the start time instead of current time.
 * -H: became the scripting mode. Fields are explicitly separated by single tab instead of an arbitrary space.
 * -HH: became the scripting mode without timzone name.
 * -N: display without local timezone.
 
-### Format of "-t time" option
+### Format of "-t start" option
 
-If your system has the GNU date, you can use the flexible format. Otherwise, specify as 'YYYY-mm-ddTHH:MM' or 'YYYYmmddTHHMM' and adding 'Z' at the end makes it UTC.
-
+If your system has the GNU date, you can use the flexible format. Otherwise, specify as 'YYYY-mm-ddTHH:MM', 'YYYYmmddTHHMM' or 'YYYYmmddTHHMM' and adding 'Z' at the end makes it UTC.
 
 ## Install
 
@@ -120,18 +119,18 @@ New_York
 It is easy to check changes from daylight saving time to standard time.
 
 ```
-$ tzdiff -t 2017-11-05T11:00 Los New_ Brus
-Los_Angeles            New_York               Brussels
-2017-11-04 19:00 PDT   2017-11-04 22:00 EDT   2017-11-05 03:00 CET   2017-11-05 11:00 JST
-2017-11-04 20:00 PDT   2017-11-04 23:00 EDT   2017-11-05 04:00 CET   2017-11-05 12:00 JST
-2017-11-04 21:00 PDT   2017-11-05 00:00 EDT   2017-11-05 05:00 CET   2017-11-05 13:00 JST
-2017-11-04 22:00 PDT   2017-11-05 01:00 EDT   2017-11-05 06:00 CET   2017-11-05 14:00 JST
-2017-11-04 23:00 PDT   2017-11-05 01:00 EST   2017-11-05 07:00 CET   2017-11-05 15:00 JST
-2017-11-05 00:00 PDT   2017-11-05 02:00 EST   2017-11-05 08:00 CET   2017-11-05 16:00 JST
-2017-11-05 01:00 PDT   2017-11-05 03:00 EST   2017-11-05 09:00 CET   2017-11-05 17:00 JST
-2017-11-05 01:00 PST   2017-11-05 04:00 EST   2017-11-05 10:00 CET   2017-11-05 18:00 JST
-2017-11-05 02:00 PST   2017-11-05 05:00 EST   2017-11-05 11:00 CET   2017-11-05 19:00 JST
-2017-11-05 03:00 PST   2017-11-05 06:00 EST   2017-11-05 12:00 CET   2017-11-05 20:00 JST
+$ tzdiff -N -t 2023-11-05T03:00Z Tok Brus New_ Los
+Tokyo                  Brussels               New_York               Los_Angeles
+2023-11-05 12:00 JST   2023-11-05 04:00 CET   2023-11-04 23:00 EDT   2023-11-04 20:00 PDT
+2023-11-05 13:00 JST   2023-11-05 05:00 CET   2023-11-05 00:00 EDT   2023-11-04 21:00 PDT
+2023-11-05 14:00 JST   2023-11-05 06:00 CET   2023-11-05 01:00 EDT   2023-11-04 22:00 PDT
+2023-11-05 15:00 JST   2023-11-05 07:00 CET   2023-11-05 01:00 EST   2023-11-04 23:00 PDT
+2023-11-05 16:00 JST   2023-11-05 08:00 CET   2023-11-05 02:00 EST   2023-11-05 00:00 PDT
+2023-11-05 17:00 JST   2023-11-05 09:00 CET   2023-11-05 03:00 EST   2023-11-05 01:00 PDT
+2023-11-05 18:00 JST   2023-11-05 10:00 CET   2023-11-05 04:00 EST   2023-11-05 01:00 PST
+2023-11-05 19:00 JST   2023-11-05 11:00 CET   2023-11-05 05:00 EST   2023-11-05 02:00 PST
+2023-11-05 20:00 JST   2023-11-05 12:00 CET   2023-11-05 06:00 EST   2023-11-05 03:00 PST
+2023-11-05 21:00 JST   2023-11-05 13:00 CET   2023-11-05 07:00 EST   2023-11-05 04:00 PST
 ```
 
 Specifying "0" and "24" at the end is convenient when you want to know what time 19:00 is your time in a foreign country. It is quicker to display 24 hours than to think.
@@ -172,3 +171,11 @@ Tzdiff works with the following operating systems.
 * macOS / FreeBSD / NetBSD / OpenBSD (It may work on DragonFly BSD.)
 * Debian / Ubuntu / CentOS and many Linux distros
 * Windows subsystem for Linux
+
+## Change Log
+
+* 2023-07-20 ver. 1.2 
+* 2019-03-05 ver. 1.1 Scripting mode has been added.
+* 2018-12-20 ver. 1.0 Manual of tzdiff(1) has been added.
+* 2018-09-04 ver. 0.9 Command name changed from 'timediff' to 'tzdiff'.
+* 2018-08-17 ver. 0.8
