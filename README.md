@@ -19,6 +19,7 @@ Tzdiff with timezone will display the time differences of remote time with local
 * -n count: max hours (default: 10)
 * -f format: output format (using '+output_fmt' of date(1))
 * -t start: set the start time instead of current time.
+* -v: show version of tzdiff.
 * -H: became the scripting mode. Fields are explicitly separated by single tab instead of an arbitrary space.
 * -HH: became the scripting mode without timzone name.
 * -N: display without local timezone.
