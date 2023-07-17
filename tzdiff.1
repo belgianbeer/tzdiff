@@ -69,7 +69,7 @@ Show usage.
 .It Fl 0
 Round down to hour. 0(zero) may be specified as the last argument.
 .It Fl l
-Display full timezone name
+Display full timezone name (region/city), only city in default.
 .It Fl n Ar count
 Number of hours. Default is 10. It may be specified as the last argument.
 .It Fl f Ar format
@@ -77,8 +77,8 @@ Output format of time. It uses output format of
 .Xr date 1
 .It Fl t Ar start
 Specify the start time.
-It supports one of "YYYY-mm-ddTHH:HH[Z]", "YYYYmmddTHHMM[Z]" or "YYYYmmddHHMM[Z]",
-adding "Z" means UTC. For the GNU date command, you can specify a flexible format.
+For the GNU date command, you can specify a flexible format.
+Otherwise, it supports one of "YYYY-mm-ddTHH:HH[Z]", "YYYYmmddTHHMM[Z]" or "YYYYmmddHHMM[Z]", adding "Z" means UTC.
 .It Fl v
 Show version of tzdiff.
 .It Fl H

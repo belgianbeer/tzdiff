@@ -15,10 +15,10 @@ Tzdiff with timezone will display the time differences of remote time with local
 
 * -h: show usage
 * -0: round down to hour
-* -l: display full timezone name
+* -l: display full timezone name (region/city), only city in default.
 * -n count: max hours (default: 10)
 * -f format: output format (using '+output_fmt' of date(1))
-* -t start: set the start time instead of current time.
+* -t start: set the start time instead of current time. (see below)
 * -v: show version of tzdiff.
 * -H: became the scripting mode. Fields are explicitly separated by single tab instead of an arbitrary space.
 * -HH: became the scripting mode without timzone name.
@@ -175,8 +175,9 @@ Tzdiff works with the following operating systems.
 
 ## Change Log
 
-* 2023-07-20 ver. 1.2 
-* 2019-03-05 ver. 1.1 Scripting mode has been added.
-* 2018-12-20 ver. 1.0 Manual of tzdiff(1) has been added.
-* 2018-09-04 ver. 0.9 Command name changed from 'timediff' to 'tzdiff'.
-* 2018-08-17 ver. 0.8
+* 2023-07-17 1.2 Name changed to city only. Start time can set in UTC.
+* 2019-03-05 1.1 Scripting mode has been added.
+* 2018-12-20 1.0 Manual of tzdiff(1) has been added.
+* 2018-09-04 0.9 Command name changed from 'timediff' to 'tzdiff'.
+* 2018-08-17 0.8 more useful.
+* 2015-08-29 0.1 Initial release.
