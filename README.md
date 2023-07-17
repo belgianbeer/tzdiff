@@ -6,7 +6,7 @@ This command was originally "timediff". Now, it's "tzdiff" because of naming con
 
 ## Usage
 
-    tzdiff [-0l] [-n count] [-f format] [-t start] timezone [timezone ...] [count] [0]
+    tzdiff [-0lvHN] [-n count] [-f format] [-t start] timezone [timezone ...] [count] [0]
 
 Tzdiff with no arguments will display list of timezones.
 Tzdiff with timezone will display the time differences of remote time with local time.
@@ -59,7 +59,7 @@ $ brew tap belgianbeer/minmin
 $ brew install tzdiff
 ```
 
-(as of 2023-06): I am applying for registration with HomeBrew. If this application goes through, you might be better off with just "brew install tzdiff".
+(as of 2023-07): Tzdiff is applying for registration with HomeBrew. If this application goes through, you might be better off with just "brew install tzdiff".
 
 ### Debian / Ubuntu
 
