@@ -1,8 +1,21 @@
-# tzdiff
+# tzdiff <!-- omit in toc -->
 
 Displays Timezone differences with localtime in CLI (shell script)
 
 This command was originally "timediff". Now, it's "tzdiff" because of naming conflict.
+
+- [Usage](#usage)
+  - [Options](#options)
+  - [Format of "-t start" option](#format-of--t-start-option)
+- [Install](#install)
+  - [FreeBSD](#freebsd)
+  - [NetBSD and pkgsrs](#netbsd-and-pkgsrs)
+  - [macOS](#macos)
+  - [Debian / Ubuntu](#debian--ubuntu)
+- [Examples](#examples)
+- [Platform](#platform)
+- [Change Log](#change-log)
+
 
 ## Usage
 
@@ -52,10 +65,9 @@ If you are MacPorts user, you can easy to install tzdiff.
 $ sudo port install tzdiff
 ```
 
-If you are Homebrew user, you can install with personal tap.
+If you are [Homebrew](https://brew.sh/) user, you can install [tzdiff](https://formulae.brew.sh/formula/tzdiff) via
 
 ```
-$ brew tap belgianbeer/minmin
 $ brew install tzdiff
 ```
 
