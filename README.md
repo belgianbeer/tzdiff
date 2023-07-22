@@ -9,13 +9,12 @@ This command was originally "timediff". Now, it's "tzdiff" because of naming con
   - [Format of "-t start" option](#format-of--t-start-option)
 - [Install](#install)
   - [FreeBSD](#freebsd)
-  - [NetBSD and pkgsrs](#netbsd-and-pkgsrs)
+  - [pkgsrs (NetBSD, Linux, macOS, etc...)](#pkgsrs-netbsd-linux-macos-etc)
   - [macOS](#macos)
   - [Debian / Ubuntu](#debian--ubuntu)
 - [Examples](#examples)
 - [Platform](#platform)
 - [Change Log](#change-log)
-
 
 ## Usage
 
@@ -53,7 +52,7 @@ $ sudo pkg install tzdiff
 
 Of course, it is already in ports. You can easy to play with ports.
 
-### NetBSD and pkgsrs
+### pkgsrs (NetBSD, Linux, macOS, etc...)
 
 Tzdiff is registered in pkgsrc. If you use pkgsrc, you can easily install it.
 
@@ -70,12 +69,9 @@ If you are [Homebrew](https://brew.sh/) user, you can install [tzdiff](https://f
 ```
 $ brew install tzdiff
 ```
-
-(as of 2023-07): Tzdiff is applying for registration with HomeBrew. If this application goes through, you might be better off with just "brew install tzdiff".
-
 ### Debian / Ubuntu
 
-Tzdiff is registerd in debian pkg, you can easy to install by apt command.
+Tzdiff is registerd in debian package, you can easy to install by apt command.
 
 ```
 $ sudo apt update
