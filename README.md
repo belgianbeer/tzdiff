@@ -12,8 +12,8 @@ This command was originally "timediff". Now, it's "tzdiff" because of naming con
   - [pkgsrs (NetBSD, Linux, macOS, etc...)](#pkgsrs-netbsd-linux-macos-etc)
   - [macOS](#macos)
   - [Debian / Ubuntu](#debian--ubuntu)
+  - [Other Platform](#other-platform)
 - [Examples](#examples)
-- [Platform](#platform)
 - [Change Log](#change-log)
 
 ## Usage
@@ -77,6 +77,16 @@ Tzdiff is registerd in debian package, you can easy to install by apt command.
 $ sudo apt update
 $ sudo apt install tzdiff
 ```
+
+### Other Platform
+
+In addition to the above, operation has been confirmed on the following platforms:
+
+- OpenBSD
+- CentOS
+- Windows Subsystem for Linux
+
+Tzdiff is stand alone shell script. It runs on many UNIX-like operating systems as long as it has a POSIX-compatible shell and the GNU date command.
 
 ## Examples
 
@@ -172,14 +182,6 @@ Brussels
 2023-06-15 04:00 CEST   2023-06-15 11:00 JST
 2023-06-15 05:00 CEST   2023-06-15 12:00 JST
 ```
-
-## Platform
-
-Tzdiff works with the following operating systems.
-
-* macOS / FreeBSD / NetBSD / OpenBSD (It may work on DragonFly BSD.)
-* Debian / Ubuntu / CentOS and many Linux distros
-* Windows subsystem for Linux
 
 ## Change Log
 
