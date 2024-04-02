@@ -185,6 +185,7 @@ Brussels
 
 ## Change Log
 
+* 2024-04-02 1.2.1 No functional changes, but updates the documentation and some coding style.
 * 2023-07-17 1.2 Name changed to city only. Start time can set in UTC.
 * 2019-03-05 1.1 Scripting mode has been added.
 * 2018-12-20 1.0 Manual of tzdiff(1) has been added.

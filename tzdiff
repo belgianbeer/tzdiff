@@ -2,7 +2,7 @@
 #
 #  tzdiff - displays timezone differences with localtime.
 #
-#  Copyright (c) 2016 - 2023 Masato Minda
+#  Copyright (c) 2016 - 2024 Masato Minda
 #  All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
@@ -26,9 +26,9 @@
 #  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #  SUCH DAMAGE.
 #
-#  $Id: tzdiff,v 1.53 2023/07/17 08:00:07 minmin Exp $
+#  $Id: tzdiff,v 1.55 2024/04/02 02:03:55 minmin Exp $
 
-version=1.2
+version=1.2.1
 format='%F %R %Z'
 max=10
 
@@ -128,7 +128,7 @@ __setup () {
 		g_date=YES
 		__date_with_format () {
 			if [ $# -eq 2 ]; then
-				TZ=:${2} date --date=@${1} +"${format}"
+				TZ=${2} date --date=@${1} +"${format}"
 			else
 				date --date=@${1} +"${format}"
 			fi
@@ -137,7 +137,7 @@ __setup () {
 		# for traditional date
 		__date_with_format () {
 			if [ $# -eq 2 ]; then
-				TZ=:${2} date -j -r ${1} +"${format}"
+				TZ=${2} date -j -r ${1} +"${format}"
 			else
 				date -j -r ${1} +"${format}"
 			fi
